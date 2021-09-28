@@ -13,7 +13,8 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Contrat implements Serializable {
-	//
+
+	//test
 	private static final long serialVersionUID = 6191889143079517027L;
 
 	@Id
