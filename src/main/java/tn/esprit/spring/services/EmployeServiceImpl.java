@@ -31,11 +31,13 @@ public class EmployeServiceImpl implements IEmployeService {
 	@Autowired
 	TimesheetRepository timesheetRepository;
 
+	//Yasmin
 	public int ajouterEmploye(Employe employe) {
 		employeRepository.save(employe);
 		return employe.getId();
 	}
 
+	//Yasmin
 	public void mettreAjourEmailByEmployeId(String email, int employeId) {
 		Employe employe = employeRepository.findById(employeId).get();
 		employe.setEmail(email);
@@ -43,6 +45,7 @@ public class EmployeServiceImpl implements IEmployeService {
 
 	}
 
+	//Yasmin
 	@Transactional	
 	public void affecterEmployeADepartement(int employeId, int depId) {
 		Departement depManagedEntity = deptRepoistory.findById(depId).get();
@@ -60,6 +63,7 @@ public class EmployeServiceImpl implements IEmployeService {
 		}
 
 	}
+	//Yasmin
 	@Transactional
 	public void desaffecterEmployeDuDepartement(int employeId, int depId)
 	{
@@ -74,11 +78,13 @@ public class EmployeServiceImpl implements IEmployeService {
 		}
 	}
 
+	//Imen
 	public int ajouterContrat(Contrat contrat) {
 		contratRepoistory.save(contrat);
 		return contrat.getReference();
 	}
 
+	//Imen
 	public void affecterContratAEmploye(int contratId, int employeId) {
 		Contrat contratManagedEntity = contratRepoistory.findById(contratId).get();
 		Employe employeManagedEntity = employeRepository.findById(employeId).get();
@@ -88,10 +94,12 @@ public class EmployeServiceImpl implements IEmployeService {
 		
 	}
 
+	//Yasmin
 	public String getEmployePrenomById(int employeId) {
 		Employe employeManagedEntity = employeRepository.findById(employeId).get();
 		return employeManagedEntity.getPrenom();
 	}
+	//Yasmin
 	public void deleteEmployeById(int employeId)
 	{
 		Employe employe = employeRepository.findById(employeId).get();
@@ -106,46 +114,56 @@ public class EmployeServiceImpl implements IEmployeService {
 		employeRepository.delete(employe);
 	}
 
+	//Imen
 	public void deleteContratById(int contratId) {
 		Contrat contratManagedEntity = contratRepoistory.findById(contratId).get();
 		contratRepoistory.delete(contratManagedEntity);
 
 	}
 
+	//Yasmin
 	public int getNombreEmployeJPQL() {
 		return employeRepository.countemp();
 	}
 	
+	//Yasmin
 	public List<String> getAllEmployeNamesJPQL() {
 		return employeRepository.employeNames();
 
 	}
 	
+	//Yasmin
 	public List<Employe> getAllEmployeByEntreprise(Entreprise entreprise) {
 		return employeRepository.getAllEmployeByEntreprisec(entreprise);
 	}
 
+	//Yasmin
 	public void mettreAjourEmailByEmployeIdJPQL(String email, int employeId) {
 		employeRepository.mettreAjourEmailByEmployeIdJPQL(email, employeId);
 
 	}
+	//Imen
 	public void deleteAllContratJPQL() {
          employeRepository.deleteAllContratJPQL();
 	}
 	
+	//Yasmin
 	public float getSalaireByEmployeIdJPQL(int employeId) {
 		return employeRepository.getSalaireByEmployeIdJPQL(employeId);
 	}
 
+	//Amal
 	public Double getSalaireMoyenByDepartementId(int departementId) {
 		return employeRepository.getSalaireMoyenByDepartementId(departementId);
 	}
 	
+	//NON
 	public List<Timesheet> getTimesheetsByMissionAndDate(Employe employe, Mission mission, Date dateDebut,
 			Date dateFin) {
 		return timesheetRepository.getTimesheetsByMissionAndDate(employe, mission, dateDebut, dateFin);
 	}
 
+	//Yasmin
 	public List<Employe> getAllEmployes() {
 				return (List<Employe>) employeRepository.findAll();
 	}
