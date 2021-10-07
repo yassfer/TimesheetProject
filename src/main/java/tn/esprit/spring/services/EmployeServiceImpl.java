@@ -45,7 +45,7 @@ public class EmployeServiceImpl implements IEmployeService {
 
 	}
 
-	//Yasmin
+	//Amal
 	@Transactional	
 	public void affecterEmployeADepartement(int employeId, int depId) {
 		Departement depManagedEntity = deptRepoistory.findById(depId).get();
@@ -63,7 +63,7 @@ public class EmployeServiceImpl implements IEmployeService {
 		}
 
 	}
-	//Yasmin
+	//Amal
 	@Transactional
 	public void desaffecterEmployeDuDepartement(int employeId, int depId)
 	{
