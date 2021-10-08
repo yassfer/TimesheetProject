@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
+import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Role;
 import tn.esprit.spring.entities.Timesheet;
@@ -99,10 +101,35 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	public List<Mission> findAllMissionByEmployeJPQL(int employeId) {
 		return timesheetRepository.findAllMissionByEmployeJPQL(employeId);
 	}
+	
+	//Nada
+	public List<Mission> getAllMissions() {
+		return (List<Mission>) missionRepository.findAll();
+}
+	//Nada
+	public void deleteMissionById(int misId) {
+		Mission Mission = missionRepository.findById(misId).get();
+		missionRepository.delete(Mission);
+
+	}
+	//Nada
+	public Mission getMissionById(int misId) {
+		return missionRepository.findById(misId).get();	
+	}
 
 	//Yasmin
 	public List<Employe> getAllEmployeByMission(int missionId) {
 		return timesheetRepository.getAllEmployeByMission(missionId);
+	}
+	
+	//nada
+	public void mettreAjourDescriptionByMissionId(String desc, int misId) {
+		missionRepository.mettreAjourDescriptionByMissionId(desc, misId);
+	}
+
+	@Override
+	public List<Mission> findAllMissionBydepartementJPQL(int depId) {
+		return missionRepository.findAllMissionBydepartementJPQL(depId);
 	}
 
 }

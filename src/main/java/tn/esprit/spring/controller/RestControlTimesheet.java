@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import tn.esprit.spring.entities.Employe;
+import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.services.IEmployeService;
 import tn.esprit.spring.services.IEntrepriseService;
@@ -76,4 +78,40 @@ public class RestControlTimesheet {
 
 		return itimesheetservice.getAllEmployeByMission(missionId);
 	}
+    
+    @GetMapping(value = "/getAllMission")
+    @ResponseBody
+	public List<Mission> getAllMissions() {
+		
+		return itimesheetservice.getAllMissions();
+	}
+    
+    @DeleteMapping("/deleteMissionById/{idmission}") 
+   	@ResponseBody 
+   	public void deletemissionById(@PathVariable("idmission")int idmission)
+   	{
+    	itimesheetservice.deleteMissionById(idmission);
+   	}
+
+    @GetMapping(value = "getmissionById/{idmission}")
+    @ResponseBody
+	public Mission getmissionById(@PathVariable("idmission") int idmission) {
+
+		return itimesheetservice.getMissionById(idmission);
+	}
+    
+    @PutMapping(value = "/mettreAjourDescriptionByMissionId/{id}/{description}") 
+ 	@ResponseBody
+	public void mettreAjourDescriptionByMissionId(@PathVariable("description") String description, @PathVariable("id") int id) {	
+    	itimesheetservice.mettreAjourDescriptionByMissionId(description, id);
+		
+	}
+    
+    @GetMapping(value = "findAllMissionBydepartementJPQL/{iddep}")
+    @ResponseBody
+	public List<Mission> findAllMissionBydepartementJPQL(@PathVariable("iddep") int iddep) {
+
+		return itimesheetservice.findAllMissionBydepartementJPQL(iddep);
+	}
+    
 }

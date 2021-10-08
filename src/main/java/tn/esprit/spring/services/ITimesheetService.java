@@ -12,8 +12,16 @@ public interface ITimesheetService {
 	
 	public int ajouterMission(Mission mission);
 	public void affecterMissionADepartement(int missionId, int depId);
+	
 	public void ajouterTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin);
 	public void validerTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin, int validateurId);
+	
 	public List<Mission> findAllMissionByEmployeJPQL(int employeId);
+	public List<Mission> findAllMissionBydepartementJPQL(int depId);	
 	public List<Employe> getAllEmployeByMission(int missionId);
+	public List<Mission> getAllMissions();
+	public void deleteMissionById(int misId);
+	public Mission getMissionById(int misId);
+	public void mettreAjourDescriptionByMissionId(String desc, int misId);
+	
 }
