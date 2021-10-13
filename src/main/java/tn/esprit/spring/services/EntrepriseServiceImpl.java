@@ -1,8 +1,8 @@
 package tn.esprit.spring.services;
 
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,4 +76,95 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 		return entrepriseRepoistory.findById(entrepriseId).get();	
 	}
 
+	
+	//Dhekra new
+		private static final Logger logger = Logger.getLogger(EmployeServiceImpl.class);
+		@Override
+		public List<Entreprise> retrieveAllEntreprises() {
+			logger.info("In  retrieveAllEmployes : "); 
+			List<Entreprise> entreprises = (List<Entreprise>) entrepriseRepoistory.findAll();  
+			for (Entreprise entreprise : entreprises) {
+				logger.debug("entreprise +++ : " + entreprise);
+			}
+			logger.info("Out of retrieveAllEntreprises."); 
+			return entreprises;
+			
+		}
+		
+		//Dhekra
+		@Override
+		public String getEntreprisenameById(int entrepriseId) {
+			String name ="test" ;
+			try {
+			logger.info("In getEntreprisePrenomById(" + entrepriseId + ")");
+			Entreprise entrepriseManagedEntity = entrepriseRepoistory.findById(entrepriseId).get();
+			name = entrepriseManagedEntity.getName();
+			logger.info("Out getEmployePrenomById : " + name);
+			}catch (Exception e) {logger.error("Erreur : " + e);}
+
+			return name;
+		}
+
+		@Override
+		public List<String> getAllEntrepriseNamesJPQL() {
+			// TODO Auto-generated method stub
+			return entrepriseRepoistory.entrepriseNames();
+		}
+		
+		/*public List<Entreprise> getAllEntreprise() {
+			return (List<Entreprise>) entrepriseRepoistory.findAll();
+	}*/
+
+		
+		public List<Entreprise> getAllEntreprise() {
+			logger.info("|| getAllEntreprise service open :");
+			List<Entreprise> listentreprise =(List<Entreprise>) entrepriseRepoistory.findAll();
+			for (Entreprise entreprise : listentreprise) {
+				logger.debug("entreprise ++ : "+entreprise.toString());
+			}
+			logger.info("getAllEntreprise service close : ||");
+			return listentreprise;
+			
+		}
+
+		
+		@Override
+		public String getNameByEntreriseIdJPQL(int entrepriseId) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void mettreAjourNameByEntrepriseIdJPQL(String name, int entrepriseId) {
+			Entreprise entreprise = entrepriseRepoistory.findById(entrepriseId).get();
+			entreprise.setName(name);
+			entrepriseRepoistory.save(entreprise);
+			
+		}
+
+		@Override
+		public void deleteAllEntrepriseJPQL() {
+			// TODO Auto-generated method stub
+			entrepriseRepoistory.deleteAllEntrepriseJPQL();
+			
+		}
+
+		@Override
+		public int getNombreEntrepriseJPQL() {
+			// TODO Auto-generated method stub
+			return entrepriseRepoistory.countemp();
+		}
+
+		@Override
+		public int addOrUpdateEntreprise(Entreprise entreprise) {
+			// TODO Auto-generated method stub
+			
+			entrepriseRepoistory.save(entreprise);
+			return entreprise.getId();
+		}
+
+		
+		
+	
+	
 }

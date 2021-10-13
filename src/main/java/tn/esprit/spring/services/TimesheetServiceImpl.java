@@ -48,7 +48,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	}
 
 	//NON
-	public void ajouterTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin) {
+	public TimesheetPK ajouterTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin) {
 		TimesheetPK timesheetPK = new TimesheetPK();
 		timesheetPK.setDateDebut(dateDebut);
 		timesheetPK.setDateFin(dateFin);
@@ -59,7 +59,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		timesheet.setTimesheetPK(timesheetPK);
 		timesheet.setValide(false); //par defaut non valide
 		timesheetRepository.save(timesheet);
-		
+		return timesheet.getTimesheetPK();
 	}
 
 	//NON
@@ -103,6 +103,21 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	//Yasmin
 	public List<Employe> getAllEmployeByMission(int missionId) {
 		return timesheetRepository.getAllEmployeByMission(missionId);
+	}
+
+	
+	
+
+	@Override
+	public List getTimesheets() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Timesheet getTimesheet(int timesheetId, boolean doLock) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
