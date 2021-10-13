@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -34,6 +36,8 @@ import tn.esprit.spring.services.EmployeServiceImpl;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EmployeServiceImplTest {
 
+	private static final Logger l = LogManager.getLogger(EmployeServiceImplTest.class);
+	
 	@Mock
 	@Autowired
 	private EmployeRepository employeRepository;
@@ -102,6 +106,7 @@ public class EmployeServiceImplTest {
 	@Test
 	public void getEmployePrenomByIdTest() {
 		String prenom = employeService.getEmployePrenomById(employe1.getId());
+		l.info("getEmployePrenomById : "+ prenom);
 		assertThat(prenom).isEqualTo("Yasmine");
 	}
 
@@ -115,12 +120,14 @@ public class EmployeServiceImplTest {
 	@Test
 	public void getNombreEmployeJPQLTest() {
 		int nbr = employeService.getNombreEmployeJPQL();
+		l.info("getNombreEmployeJPQL : "+ nbr);
 		assertThat(nbr).isEqualTo(2);
 	}
 
 	@Test
 	public void getAllEmployeNamesJPQLTest() {
 		List<String> names = employeService.getAllEmployeNamesJPQL();
+		l.info("getAllEmployeNamesJPQL : "+ names);
 		assertThat(names.get(0)).isEqualTo(employe1.getNom());
 		assertThat(names.get(1)).isEqualTo(employe2.getNom());
 	}
@@ -128,6 +135,7 @@ public class EmployeServiceImplTest {
 	@Test
 	public void getAllEmployeByEntrepriseTest() {
 		List<Employe> employes = employeService.getAllEmployeByEntreprise(entreprise);
+		l.info("getAllEmployeByEntreprise : "+ employes);
 		assertThat(employes.size()).isEqualTo(1);
 	}
 
@@ -140,12 +148,14 @@ public class EmployeServiceImplTest {
 	@Test
 	public void getSalaireByEmployeIdJPQLTest() {
 		float salaire = employeService.getSalaireByEmployeIdJPQL(employe1.getId());
+		l.info("getSalaireByEmployeIdJPQL : "+ salaire);
 		assertThat(salaire).isEqualTo(2000);
 	}
 
 	@Test
 	public void getAllEmployesTest() {
 		List<Employe> employes = employeService.getAllEmployes();
+		l.info("getAllEmployes : "+ employes);
 		assertThat(employes.size()).isGreaterThan(0);
 	}
 }
