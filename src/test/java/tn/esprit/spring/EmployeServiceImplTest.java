@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -37,7 +38,7 @@ import tn.esprit.spring.services.EmployeServiceImpl;
 public class EmployeServiceImplTest {
 
 	private static final Logger l = LogManager.getLogger(EmployeServiceImplTest.class);
-	
+
 	@Mock
 	@Autowired
 	private EmployeRepository employeRepository;
@@ -57,15 +58,17 @@ public class EmployeServiceImplTest {
 	@Autowired
 	@InjectMocks
 	private EmployeServiceImpl employeService;
-
+	private static String mail = "ferchichi@gmail.com";
 	private Employe employe1;
 	private Employe employe2;
 	private Entreprise entreprise;
-	private Departement departement;
+
 	Contrat contrat;
 
 	@Before
 	public void setUp() {
+		Departement departement;
+
 		entreprise = entrepRepository.save(new Entreprise("ESPRIT", "educatif"));
 		departement = deptRepoistory.save(new Departement("Recherche"));
 		departement.setEntreprise(entreprise);
@@ -99,14 +102,21 @@ public class EmployeServiceImplTest {
 
 	@Test
 	public void mettreAjourEmailByEmployeIdTest() {
-		employeService.mettreAjourEmailByEmployeId("ferchichi@gmail.com", employe1.getId());
-		assertThat(employeRepository.findById(employe1.getId()).get().getEmail()).isEqualTo("ferchichi@gmail.com");
+		employeService.mettreAjourEmailByEmployeId(mail, employe1.getId());
+		Optional<Employe> e = employeRepository.findById(employe1.getId());
+		if (e.isPresent()) {
+			assertThat(e.get().getEmail()).isEqualTo(mail);
+		}
 	}
 
 	@Test
 	public void getEmployePrenomByIdTest() {
+		long start = System.nanoTime();
 		String prenom = employeService.getEmployePrenomById(employe1.getId());
-		l.info("getEmployePrenomById : "+ prenom);
+		long end = System.nanoTime();
+		 long elapsedTime = end - start;
+		l.log(Level.INFO, ()-> "Duration getEmployePrenomByIdTest: "+ elapsedTime);
+		l.log(Level.INFO, () -> "getEmployePrenomById : " + prenom);
 		assertThat(prenom).isEqualTo("Yasmine");
 	}
 
@@ -120,14 +130,14 @@ public class EmployeServiceImplTest {
 	@Test
 	public void getNombreEmployeJPQLTest() {
 		int nbr = employeService.getNombreEmployeJPQL();
-		l.info("getNombreEmployeJPQL : "+ nbr);
+		l.log(Level.INFO, () -> "getNombreEmployeJPQL : " + nbr);
 		assertThat(nbr).isEqualTo(2);
 	}
 
 	@Test
 	public void getAllEmployeNamesJPQLTest() {
 		List<String> names = employeService.getAllEmployeNamesJPQL();
-		l.info("getAllEmployeNamesJPQL : "+ names);
+		l.log(Level.INFO, () -> "getAllEmployeNamesJPQL : " + names);
 		assertThat(names.get(0)).isEqualTo(employe1.getNom());
 		assertThat(names.get(1)).isEqualTo(employe2.getNom());
 	}
@@ -135,27 +145,30 @@ public class EmployeServiceImplTest {
 	@Test
 	public void getAllEmployeByEntrepriseTest() {
 		List<Employe> employes = employeService.getAllEmployeByEntreprise(entreprise);
-		l.info("getAllEmployeByEntreprise : "+ employes);
+		l.log(Level.INFO, () -> "getAllEmployeByEntreprise : " + employes);
 		assertThat(employes.size()).isEqualTo(1);
 	}
 
 	@Test
 	public void mettreAjourEmailByEmployeIdJPQLTest() {
 		employeService.mettreAjourEmailByEmployeIdJPQL("ferchichi@gmail.com", employe1.getId());
-		assertThat(employeRepository.findById(employe1.getId()).get().getEmail()).isEqualTo("ferchichi@gmail.com");
+		Optional<Employe> e = employeRepository.findById(employe1.getId());
+		if (e.isPresent()) {
+			assertThat(e.get().getEmail()).isEqualTo("ferchichi@gmail.com");
+		}
 	}
 
 	@Test
 	public void getSalaireByEmployeIdJPQLTest() {
 		float salaire = employeService.getSalaireByEmployeIdJPQL(employe1.getId());
-		l.info("getSalaireByEmployeIdJPQL : "+ salaire);
+		l.log(Level.INFO, () -> "getSalaireByEmployeIdJPQL : " + salaire);
 		assertThat(salaire).isEqualTo(2000);
 	}
 
 	@Test
 	public void getAllEmployesTest() {
 		List<Employe> employes = employeService.getAllEmployes();
-		l.info("getAllEmployes : "+ employes);
+		l.log(Level.INFO, () -> "getAllEmployes : " + employes);
 		assertThat(employes.size()).isGreaterThan(0);
 	}
 }
