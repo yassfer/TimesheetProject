@@ -1,6 +1,7 @@
 package tn.esprit.spring;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 import java.util.List;
@@ -148,4 +149,48 @@ public class EmployeServiceImplTest {
 		List<Employe> employes = employeService.getAllEmployes();
 		assertThat(employes.size()).isGreaterThan(0);
 	}
+	
+	//////////////amal
+	@Test
+	public void testaffecterEmployeADepartement() {
+		boolean val= true;
+		boolean res= false;
+		employeService.affecterEmployeADepartement(1,3);
+		Optional<Employe> emp = employeService.findById(1);
+		List<Departement> deps= emp.get().getDepartements();
+		int size=deps.size();
+		for (int i=0; i<size; i++){
+			if(deps.get(i).getId()==3){
+				res=true;
+			}
+		}
+		assertEquals(val,res);
+
 }
+	@Test
+	public void testdesaffecterEmployeDuDepartement() {
+		boolean val= true;
+		boolean res= true;
+		employeService.desaffecterEmployeDuDepartement(1,4);
+		Optional<Employe> emp =  employeService.findById(1);
+		List<Departement> deps= emp.get().getDepartements();
+		int size=deps.size();
+		for (int i=0; i<size; i++){
+			if(deps.get(i).getId()==4){
+				res=false;
+			}
+		}
+		assertEquals(val,res);
+
+}
+	@Test
+	public void testgetSalaireMoyenByDepartementId(){
+		Double val=(double) 1200;
+		Double res= employeService.getSalaireMoyenByDepartementId(4);
+		assertEquals(val,res);
+	}
+
+}
+	
+
+
