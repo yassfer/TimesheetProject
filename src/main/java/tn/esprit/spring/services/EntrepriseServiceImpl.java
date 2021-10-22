@@ -2,6 +2,7 @@ package tn.esprit.spring.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,19 +40,18 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 				// ==> c'est l'objet departement(le master) qui va mettre a jour l'association
 				//Rappel : la classe qui contient mappedBy represente le bout Slave
 				//Rappel : Dans une relation oneToMany le mappedBy doit etre du cote one.
-				Entreprise entrepriseManagedEntity = entrepriseRepoistory.findById(entrepriseId).get();
-				Departement depManagedEntity = deptRepoistory.findById(depId).get();
-				
-				depManagedEntity.setEntreprise(entrepriseManagedEntity);
-				deptRepoistory.save(depManagedEntity);
-		
+		Optional<Entreprise> entrepriseManagedEntity = entrepriseRepoistory.findById(entrepriseId);
+		Optional<Departement> depManagedEntity = deptRepoistory.findById(depId);
+		   depManagedEntity.get().setEntreprise(entrepriseManagedEntity.get());
+		   deptRepoistory.save(depManagedEntity.get());
+		    
 	}
 	
 	//Amal
 	public List<String> getAllDepartementsNamesByEntreprise(int entrepriseId) {
-		Entreprise entrepriseManagedEntity = entrepriseRepoistory.findById(entrepriseId).get();
+		Optional<Entreprise> entrepriseManagedEntity = entrepriseRepoistory.findById(entrepriseId);
 		List<String> depNames = new ArrayList<>();
-		for(Departement dep : entrepriseManagedEntity.getDepartements()){
+		for(Departement dep : entrepriseManagedEntity.get().getDepartements()){
 			depNames.add(dep.getName());
 		}
 		

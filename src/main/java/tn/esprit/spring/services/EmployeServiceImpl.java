@@ -39,7 +39,7 @@ public class EmployeServiceImpl implements IEmployeService {
 
 	//Yasmin
 	public void mettreAjourEmailByEmployeId(String email, int employeId) {
-		Employe employe = employeRepository.findById(employeId).get();
+		Employe employe =employeRepository.findById(employeId).get();
 		employe.setEmail(email);
 		employeRepository.save(employe);
 
