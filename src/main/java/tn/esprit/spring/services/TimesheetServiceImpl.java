@@ -1,15 +1,18 @@
 package tn.esprit.spring.services;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
+import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Role;
 import tn.esprit.spring.entities.Timesheet;
@@ -18,6 +21,7 @@ import tn.esprit.spring.repository.DepartementRepository;
 import tn.esprit.spring.repository.EmployeRepository;
 import tn.esprit.spring.repository.MissionRepository;
 import tn.esprit.spring.repository.TimesheetRepository;
+
 
 @Service
 public class TimesheetServiceImpl implements ITimesheetService {
@@ -32,10 +36,15 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	@Autowired
 	EmployeRepository employeRepository;
 	
+	private static final Logger l = LogManager.getLogger(TimesheetServiceImpl.class);
+	
+	
+	
 	//Nada
 	public int ajouterMission(Mission mission) {
 		missionRepository.save(mission);
 		return mission.getId();
+		
 	}
     
 	//Nada
@@ -44,7 +53,8 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		Departement dep = deptRepoistory.findById(depId).get();
 		mission.setDepartement(dep);
 		missionRepository.save(mission);
-		
+		//logging
+		 l.info("affecterMissionADepartement : "+ mission +dep); 
 	}
 
 	//NON
@@ -97,12 +107,65 @@ public class TimesheetServiceImpl implements ITimesheetService {
 
 	//Nada
 	public List<Mission> findAllMissionByEmployeJPQL(int employeId) {
-		return timesheetRepository.findAllMissionByEmployeJPQL(employeId);
+		  List<Mission> misList = timesheetRepository.findAllMissionByEmployeJPQL(employeId);
+		//logging  
+		   for (Mission mis: misList){
+			   l.info(" findAllMissionByEmploye : "+ misList); 
+		   }
+		   
+		return misList;
+		
+		 
+	}
+	
+	//Nada
+	public List<Mission> getAllMissions() {
+		  List<Mission> misList =(List<Mission>) missionRepository.findAll();
+		 
+		//logging
+        for (Mission mis: misList){
+        	l.info("Mission :" + mis); 
+        }
+        
+        return misList;
+}
+	
+	//Nada
+	public void deleteMissionById(int misId) {
+		Mission Mission = missionRepository.findById(misId).get();
+		missionRepository.delete(Mission);
+
+	}
+	
+	//Nada
+	public Mission getMissionById(int misId) {
+		 	Mission misList = (Mission)missionRepository.findById(misId).get();	
+			//logging
+	        l.info("getMissionById : "+ misList);
+		 	return misList;
+		 	
 	}
 
 	//Yasmin
 	public List<Employe> getAllEmployeByMission(int missionId) {
 		return timesheetRepository.getAllEmployeByMission(missionId);
+		
+	}
+	
+	//nada
+	public void mettreAjourDescriptionByMissionId(String desc, int misId) {
+		missionRepository.mettreAjourDescriptionByMissionId(desc, misId);
+	}
+
+	@Override
+	public List<Mission> findAllMissionBydepartementJPQL(int depId) {
+		List<Mission> misList =missionRepository.findAllMissionBydepartementJPQL(depId); 
+	      //logging
+	        for (Mission mis: misList){
+	        	l.info("findAllMissionBydepartement :" + mis); 
+	        }
+	        
+		 return (List<Mission>) misList;
 	}
 
 }
