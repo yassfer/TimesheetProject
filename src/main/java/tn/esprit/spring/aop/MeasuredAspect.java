@@ -4,11 +4,11 @@ import java.lang.reflect.Method;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.util.Strings;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.assertj.core.util.Strings;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
@@ -30,8 +30,9 @@ public class MeasuredAspect {
         Method method = methodSignature.getMethod();
         Measured measured = method.getAnnotation(Measured.class);
         String message = measured.message();
-        if (Strings.isNullOrEmpty(message))
-            log.debug("Method {} execution: {} ms", joinPoint.getSignature().toShortString(), executionTime);
+        String methodName = joinPoint.getSignature().toShortString();
+        if (Strings.isEmpty(message))
+            log.debug("Method {} execution: {} ms", methodName, executionTime);
         else
             log.debug("{}: {} ms", message, executionTime);
         return proceed;
