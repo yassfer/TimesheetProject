@@ -7,12 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import tn.esprit.spring.entities.Contrat;
+
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
-import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Role;
 import tn.esprit.spring.entities.Timesheet;
@@ -54,7 +52,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		mission.setDepartement(dep);
 		missionRepository.save(mission);
 		//logging
-		 l.info("affecterMissionADepartement : "+ mission +dep); 
+		 l.info("affecterMissionADepartement:"+ missionId +"A"+ depId); 
 	}
 
 	//NON
@@ -74,12 +72,11 @@ public class TimesheetServiceImpl implements ITimesheetService {
 
 	//NON
 	public void validerTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin, int validateurId) {
-		System.out.println("In valider Timesheet");
+	
 		Employe validateur = employeRepository.findById(validateurId).get();
 		Mission mission = missionRepository.findById(missionId).get();
 		//verifier s'il est un chef de departement (interet des enum)
 		if(!validateur.getRole().equals(Role.CHEF_DEPARTEMENT)){
-			System.out.println("l'employe doit etre chef de departement pour valider une feuille de temps !");
 			return;
 		}
 		//verifier s'il est le chef de departement de la mission en question
@@ -91,17 +88,14 @@ public class TimesheetServiceImpl implements ITimesheetService {
 			}
 		}
 		if(!chefDeLaMission){
-			System.out.println("l'employe doit etre chef de departement de la mission en question");
 			return;
 		}
-//
+
 		TimesheetPK timesheetPK = new TimesheetPK(missionId, employeId, dateDebut, dateFin);
 		Timesheet timesheet =timesheetRepository.findBytimesheetPK(timesheetPK);
 		timesheet.setValide(true);
+		SimpleDateFormat dateF= new SimpleDateFormat("dd/MM/yyyy");
 		
-		//Comment Lire une date de la base de données
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		System.out.println("dateDebut : " + dateFormat.format(timesheet.getTimesheetPK().getDateDebut()));
 		
 	}
 
@@ -110,7 +104,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		  List<Mission> misList = timesheetRepository.findAllMissionByEmployeJPQL(employeId);
 		//logging  
 		   for (Mission mis: misList){
-			   l.info(" findAllMissionByEmploye : "+ misList); 
+			   l.info("findAllMissionByEmploye:"+ mis); 
 		   }
 		   
 		return misList;
@@ -120,20 +114,16 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	
 	//Nada
 	public List<Mission> getAllMissions() {
-		  List<Mission> misList =(List<Mission>) missionRepository.findAll();
-		 
 		//logging
-        for (Mission mis: misList){
-        	l.info("Mission :" + mis); 
-        }
-        
+		 l.info("getAllMissions:" ); 
+		  List<Mission> misList =(List<Mission>) missionRepository.findAll();
         return misList;
 }
 	
 	//Nada
 	public void deleteMissionById(int misId) {
-		Mission Mission = missionRepository.findById(misId).get();
-		missionRepository.delete(Mission);
+	
+		missionRepository.delete(missionRepository.findById(misId).get());
 
 	}
 	
@@ -141,7 +131,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	public Mission getMissionById(int misId) {
 		 	Mission misList = (Mission)missionRepository.findById(misId).get();	
 			//logging
-	        l.info("getMissionById : "+ misList);
+	        l.info("getMissionById" +misId);
 		 	return misList;
 		 	
 	}
@@ -159,13 +149,10 @@ public class TimesheetServiceImpl implements ITimesheetService {
 
 	@Override
 	public List<Mission> findAllMissionBydepartementJPQL(int depId) {
+		 //logging
+		l.info("findAllMissionBydepartement:" ); 
 		List<Mission> misList =missionRepository.findAllMissionBydepartementJPQL(depId); 
-	      //logging
-	        for (Mission mis: misList){
-	        	l.info("findAllMissionBydepartement :" + mis); 
-	        }
-	        
-		 return (List<Mission>) misList;
+	     return (List<Mission>) misList;
 	}
 
 }
