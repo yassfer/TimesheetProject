@@ -55,8 +55,7 @@ public class TimesheetServiceImplTest {
 	
 	@Test
     public void TestfindAllMissionByEmployeJPQL()
-    {   
-        //test
+    {   //test
 		Mission misList = (Mission)timesheetServiceImpl.findAllMissionByEmployeJPQL(1);
         assertNotEquals("Lokesh", misList.getName());
         assertEquals("test", misList.getDescription());
@@ -75,8 +74,8 @@ public class TimesheetServiceImplTest {
 	
 	@Test
 	public void testdeleteMissionById() {
-	    System.out.println("Running testDelete...");
-	  //  timesheetServiceImpl.deleteMissionById(6);
+	 
+	  timesheetServiceImpl.deleteMissionById(6);
      Mission mission = timesheetServiceImpl.getMissionById(10);
       assertThat(mission).isNull();
 	}
