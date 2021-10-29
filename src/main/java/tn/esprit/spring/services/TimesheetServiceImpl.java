@@ -152,6 +152,9 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		 //logging
 		l.info("findAllMissionBydepartement:" ); 
 		List<Mission> misList =missionRepository.findAllMissionBydepartementJPQL(depId); 
+		 for (Mission mis: misList){
+			   l.info("findAllMissionBydepartementJPQL:"+ mis); 
+		   }
 	     return (List<Mission>) misList;
 	}
 
