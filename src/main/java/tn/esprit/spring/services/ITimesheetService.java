@@ -2,6 +2,7 @@ package tn.esprit.spring.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Mission;
@@ -21,6 +22,6 @@ public interface ITimesheetService {
 	public List<Employe> getAllEmployeByMission(int missionId);
 	public List<Mission> getAllMissions();
 	public void deleteMissionById(int misId);
-	public Mission getMissionById(int misId);
+	public Optional<Mission> getMissionById(int misId);
 	public void mettreAjourDescriptionByMissionId(String desc, int misId);
 }

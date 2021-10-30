@@ -2,12 +2,19 @@ package tn.esprit.spring;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Mission;
+import tn.esprit.spring.repository.DepartementRepository;
+import tn.esprit.spring.repository.MissionRepository;
 import tn.esprit.spring.services.TimesheetServiceImpl;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,87 +27,98 @@ public class TimesheetServiceImplTest {
 	@Autowired
 	  private  TimesheetServiceImpl timesheetServiceImpl;
 	
+	@Autowired
+	private MissionRepository missionRepository;
 	
-	
-	@Test
-	public void TestajouterMission() {
-		Mission mission = new Mission("test","test");
-		int missionadd = timesheetServiceImpl.ajouterMission(mission);
-		timesheetServiceImpl.deleteMissionById(mission.getId());
-		assertTrue(mission.getName().equals("test"));
-		assertEquals(missionadd,mission.getId());
-		
-		}
-	
-	
-	
-	/*@Test
-	public void TestaffecterMissionADepartement() {
-		 timesheetServiceImpl.affecterMissionADepartement(9,1);
-		 Mission mission = timesheetServiceImpl.getMissionById(9);
-	      //assertEquals("dep1", mission.getDepartement().getName());
-		  //assertNotNull(mission.getDepartement().getId());
-		
-		}
-	
-	
-	@Test
-    public void TestgetAllMissions()
-    {   
-        //test
-        List<Mission> misList = timesheetServiceImpl.getAllMissions();
-        //assertEquals(5, misList.size());
-        
-    }
-	
-	@Test
-    public void TestfindAllMissionByEmployeJPQL()
-    {   //test
-		Mission misList = (Mission)timesheetServiceImpl.findAllMissionByEmployeJPQL(1);
-        //assertNotEquals("Lokesh", misList.getName());
-       // assertEquals("test", misList.getDescription());
-       
-    } 
+	@Autowired
+	DepartementRepository deptRepoistory;
 
-	@Test
-    public void TestfindAllMissionBydepartementJPQL()
-    {   
-        //test
-		Mission misList = (Mission)timesheetServiceImpl.findAllMissionBydepartementJPQL(1);
-		//assertEquals("test", misList.getName());
-      
-    } 
-   
+	private Mission	mis1;
 	
-	@Test
-	public void testdeleteMissionById() {
-	 
-	  timesheetServiceImpl.deleteMissionById(6);
-     Mission mission = timesheetServiceImpl.getMissionById(10);
-      //assertThat(mission).isNull();
+	private Mission mis2 ;
+	
+	private static String update = "update";
+	
+	private Departement departement;
+	
+	@Before
+	public void setUp() {
+		
+		departement =new Departement("dep");
+		deptRepoistory.save(departement);
+		mis1 = new Mission("test1","test1");
+	    mis2 = new Mission("test2","test2");
+	    missionRepository.save(mis1);
+	    missionRepository.save(mis2);
+	    timesheetServiceImpl.affecterMissionADepartement(mis1.getId(),departement.getId());
+	}
+
+	@After
+	public void tearDown() {	
+		missionRepository.deleteAll();
+		deptRepoistory.deleteAll();
+		
 	}
 	
 	
 	@Test
-    public void TestgetMissionById()
-    {   
-        //test
-		Mission misList = (Mission)timesheetServiceImpl.getMissionById(9);
-       // assertEquals("test", misList.getName());
-       // assertEquals("test", misList.getDescription());
-    }
-     
-	    
+	public void TestajouterMission() {
+		Mission	mission = new Mission("nada","nada1");
+		int missionadd = timesheetServiceImpl.ajouterMission(mission);
+		// timesheetServiceImpl.deleteMissionById(mission.getId());
+		assertTrue(mission.getName().equals("nada"));
+		assertEquals(missionadd,mission.getId());
+		}
+	
+	
 	 @Test
 	    public void testmettreAjourDescriptionByMissionId() {
+		
+		 timesheetServiceImpl.mettreAjourDescriptionByMissionId(update,mis1.getId());
+		 Optional<Mission> mis = missionRepository.findById(mis1.getId());
+	      assertEquals("update", mis.get().getDescription());
+	    }
+	
+	
+	
+	 
+	 @Test
+	    public void TestgetAllMissions()
+	    {   
+	        //test
+	        List<Mission> misList = timesheetServiceImpl.getAllMissions();
+	    	assertThat(misList.size()).isEqualTo(2);
+	       
+	    }
+	 
+	 @Test
+	    public void TestfindAllMissionBydepartementJPQL()
+	    {   
+	        //test
+			 List<Mission>misList = timesheetServiceImpl.findAllMissionBydepartementJPQL(departement.getId());
+			 assertThat(misList.size()).isEqualTo(0);
+	      
+	    } 
+	 
+	 @Test
+	    public void TestgetMissionById()
+	    {   
+	        //test
+		 Optional<Mission>  misList = timesheetServiceImpl.getMissionById(mis1.getId());
+	        assertEquals(mis1.getName(), misList.get().getName());
 	        
-		 timesheetServiceImpl.mettreAjourDescriptionByMissionId("test4",10);
-		 Mission mission = timesheetServiceImpl.getMissionById(10);
-	     // assertEquals("test4", mission.getDescription());
+	    }
 	     
-	    }*/
 	 
 	 
+	 @Test
+		public void testdeleteMissionById() {
+		 
+		  timesheetServiceImpl.deleteMissionById(mis2.getId());
+		  Optional<Mission> missiondelete = missionRepository.findById(mis2.getId());
+	    //  assertThat(missiondelete).isNull();
+		}
+	
 	 
 	}
 	

@@ -2,6 +2,7 @@ package tn.esprit.spring.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -85,7 +86,7 @@ public class RestControlTimesheet {
 
     @GetMapping(value = "getmissionById/{idmission}")
     @ResponseBody
-	public Mission getmissionById(@PathVariable("idmission") int idmission) {
+	public Optional<Mission> getmissionById(@PathVariable("idmission") int idmission) {
 
 		return itimesheetservice.getMissionById(idmission);
 	}

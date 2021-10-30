@@ -109,6 +109,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 			}
 			
 		}
+		
 	//Nada
 	public List<Mission> findAllMissionByEmployeJPQL(int employeId) {
 		  List<Mission> misList = timesheetRepository.findAllMissionByEmployeJPQL(employeId);
@@ -126,8 +127,8 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	public List<Mission> getAllMissions() {
 		//logging
 		 l.info("getAllMissions:" ); 
-		  List<Mission> misList =(List<Mission>) missionRepository.findAll();
-        return misList;
+		 return (List<Mission>) missionRepository.findAll();
+     
 }
 	
 	//Nada
@@ -139,11 +140,11 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	}
 	
 	//Nada
-	public Mission getMissionById(int misId) {
-		Mission misList = missionRepository.findById(misId).get();	
+	public Optional<Mission> getMissionById(int misId) {
+		Optional<Mission> misList = missionRepository.findById(misId) ;	
 		//logging
 		l.log(Level.INFO, ()-> "getMissionById "+ misId);
-	 	return  misList;
+	 	return misList;
 		 	
 	}
 
