@@ -50,7 +50,10 @@ public interface EmployeRepository extends CrudRepository<Employe, Integer>  {
 			+ "where deps.id=:depId")
     public Double getSalaireMoyenByDepartementId(@Param("depId")int departementId);
 	
-    		
+    @Transactional
+    @Modifying
+    @Query("Delete FROM Employe e where e.id= :id")
+    void deleteEmploye(@Param("id") int id);
    
 
 }

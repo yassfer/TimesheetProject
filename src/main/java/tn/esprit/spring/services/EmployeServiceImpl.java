@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tn.esprit.spring.advice.TrackExecutionTime;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
@@ -34,12 +35,14 @@ public class EmployeServiceImpl implements IEmployeService {
 	TimesheetRepository timesheetRepository;
 
 	//Yasmin
+	@TrackExecutionTime
 	public int ajouterEmploye(Employe employe) {
 		employeRepository.save(employe);
 		return employe.getId();
 	}
 
 	//Yasmin
+	@TrackExecutionTime
 	public void mettreAjourEmailByEmployeId(String email, int employeId) {
 		Optional<Employe> employe = employeRepository.findById(employeId);
 		if(employe.isPresent()) {
@@ -102,6 +105,7 @@ public class EmployeServiceImpl implements IEmployeService {
 	}
 
 	//Yasmin
+	@TrackExecutionTime
 	public String getEmployePrenomById(int employeId) {
 		Optional<Employe> employeManagedEntity = employeRepository.findById(employeId);
 		if(employeManagedEntity.isPresent()) {
@@ -112,6 +116,7 @@ public class EmployeServiceImpl implements IEmployeService {
 		
 	}
 	//Yasmin
+	@TrackExecutionTime
 	public void deleteEmployeById(int employeId)
 	{
 		Optional<Employe> employe = employeRepository.findById(employeId);
@@ -122,9 +127,9 @@ public class EmployeServiceImpl implements IEmployeService {
 		if(employe.isPresent()) {
 			for(Departement dep : employe.get().getDepartements()){
 				dep.getEmployes().remove(employe.get());
-				employeRepository.delete(employe.get());
+				deptRepoistory.save(dep);
 			}
-			
+			employeRepository.deleteEmploye(employe.get().getId());
 		}
 	}
 
@@ -137,22 +142,26 @@ public class EmployeServiceImpl implements IEmployeService {
 	}
 
 	//Yasmin
+	@TrackExecutionTime
 	public int getNombreEmployeJPQL() {
 		return employeRepository.countemp();
 	}
 	
 	//Yasmin
+	@TrackExecutionTime
 	public List<String> getAllEmployeNamesJPQL() {
 		return employeRepository.employeNames();
 
 	}
 	
 	//Yasmin
+	@TrackExecutionTime
 	public List<Employe> getAllEmployeByEntreprise(Entreprise entreprise) {
 		return employeRepository.getAllEmployeByEntreprisec(entreprise);
 	}
 
 	//Yasmin
+	@TrackExecutionTime
 	public void mettreAjourEmailByEmployeIdJPQL(String email, int employeId) {
 		employeRepository.mettreAjourEmailByEmployeIdJPQL(email, employeId);
 
@@ -163,6 +172,7 @@ public class EmployeServiceImpl implements IEmployeService {
 	}
 	
 	//Yasmin
+	@TrackExecutionTime
 	public float getSalaireByEmployeIdJPQL(int employeId) {
 		return employeRepository.getSalaireByEmployeIdJPQL(employeId);
 	}
@@ -179,6 +189,7 @@ public class EmployeServiceImpl implements IEmployeService {
 	}
 
 	//Yasmin
+	@TrackExecutionTime
 	public List<Employe> getAllEmployes() {
 				return (List<Employe>) employeRepository.findAll();
 	}

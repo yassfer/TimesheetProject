@@ -54,7 +54,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 			mission.get().setDepartement(dep.get());
 			missionRepository.save(mission.get());
 			//logging
-			 l.info("affecterMissionADepartement:"+ missionId +"A"+ depId); 
+			l.log(Level.INFO, ()-> "affecterMissionADepartement:"+ missionId +"A"+ depId);
 		}		
 	}
 
@@ -114,7 +114,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		  List<Mission> misList = timesheetRepository.findAllMissionByEmployeJPQL(employeId);
 		//logging  
 		   for (Mission mis: misList){
-			   l.info("findAllMissionByEmploye:"+ mis); 
+			   l.log(Level.INFO,()-> "findAllMissionByEmploye:"+ mis);
 		   }
 		   
 		return misList;
@@ -142,7 +142,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	public Mission getMissionById(int misId) {
 		Mission misList = missionRepository.findById(misId).get();	
 		//logging
-        l.info("getMissionById "+ misId);
+		l.log(Level.INFO, ()-> "getMissionById "+ misId);
 	 	return  misList;
 		 	
 	}
@@ -164,7 +164,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		l.info("findAllMissionBydepartement:" ); 
 		List<Mission> misList =missionRepository.findAllMissionBydepartementJPQL(depId); 
 		 for (Mission mis: misList){
-			   l.info("findAllMissionBydepartementJPQL:"+mis); 
+			 l.log(Level.INFO, ()-> "findAllMissionBydepartementJPQL:"+mis);
 		   }
 	     return  misList;
 	}

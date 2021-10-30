@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import tn.esprit.spring.aop.Measured;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
@@ -95,15 +94,13 @@ public class EmployeServiceImplTest {
 	}
 
 	@Test
-	@Measured(message = "ajouterEmployeTest ")
 	public void ajouterEmployeTest() {
 		Employe savedEmploye = new Employe("Laffet", "Amal", "amal@gmail.com", false, Role.INGENIEUR);
 		employeService.ajouterEmploye(savedEmploye);
-		//assertThat(savedEmploye.getId()).isGreaterThan(0);
+		assertThat(savedEmploye.getRole()).isEqualTo(Role.INGENIEUR);
 	}
 
 	@Test
-	@Measured(message = "mettreAjourEmailByEmployeIdTest ")
 	public void mettreAjourEmailByEmployeIdTest() {
 		employeService.mettreAjourEmailByEmployeId(mail, employe1.getId());
 		Optional<Employe> e = employeRepository.findById(employe1.getId());
@@ -113,27 +110,20 @@ public class EmployeServiceImplTest {
 	}
 
 	@Test
-	@Measured(message = "getEmployePrenomByIdTest ")
 	public void getEmployePrenomByIdTest() {
-		long start = System.nanoTime();
 		String prenom = employeService.getEmployePrenomById(employe1.getId());
-		long end = System.nanoTime();
-		 long elapsedTime = end - start;
-		l.log(Level.INFO, ()-> "Duration getEmployePrenomByIdTest: "+ elapsedTime);
 		l.log(Level.INFO, () -> "getEmployePrenomById : " + prenom);
 		assertThat(prenom).isEqualTo("Yasmine");
 	}
 
 	@Test
-	@Measured(message = "deleteEmployeByIdTest ")
 	public void deleteEmployeByIdTest() {
 		employeService.deleteEmployeById(employe2.getId());
 		Optional<Employe> deletedEmploye = employeRepository.findById(employe2.getId());
-		//assertThat(deletedEmploye).isEmpty();
+		assertThat(deletedEmploye).isEmpty();
 	}
 
 	@Test
-	@Measured(message = "getNombreEmployeJPQLTest ")
 	public void getNombreEmployeJPQLTest() {
 		int nbr = employeService.getNombreEmployeJPQL();
 		l.log(Level.INFO, () -> "getNombreEmployeJPQL : " + nbr);
@@ -141,7 +131,6 @@ public class EmployeServiceImplTest {
 	}
 
 	@Test
-	@Measured(message = "getAllEmployeNamesJPQLTest ")
 	public void getAllEmployeNamesJPQLTest() {
 		List<String> names = employeService.getAllEmployeNamesJPQL();
 		l.log(Level.INFO, () -> "getAllEmployeNamesJPQL : " + names);
@@ -150,7 +139,6 @@ public class EmployeServiceImplTest {
 	}
 
 	@Test
-	@Measured(message = "getAllEmployeByEntrepriseTest ")
 	public void getAllEmployeByEntrepriseTest() {
 		List<Employe> employes = employeService.getAllEmployeByEntreprise(entreprise);
 		l.log(Level.INFO, () -> "getAllEmployeByEntreprise : " + employes);
@@ -158,7 +146,6 @@ public class EmployeServiceImplTest {
 	}
 
 	@Test
-	@Measured(message = "mettreAjourEmailByEmployeIdJPQLTest ")
 	public void mettreAjourEmailByEmployeIdJPQLTest() {
 		employeService.mettreAjourEmailByEmployeIdJPQL("ferchichi@gmail.com", employe1.getId());
 		Optional<Employe> e = employeRepository.findById(employe1.getId());
@@ -168,7 +155,6 @@ public class EmployeServiceImplTest {
 	}
 
 	@Test
-	@Measured(message = "getSalaireByEmployeIdJPQLTest ")
 	public void getSalaireByEmployeIdJPQLTest() {
 		float salaire = employeService.getSalaireByEmployeIdJPQL(employe1.getId());
 		l.log(Level.INFO, () -> "getSalaireByEmployeIdJPQL : " + salaire);
@@ -176,7 +162,6 @@ public class EmployeServiceImplTest {
 	}
 
 	@Test
-	@Measured(message = "getAllEmployesTest ")
 	public void getAllEmployesTest() {
 		List<Employe> employes = employeService.getAllEmployes();
 		l.log(Level.INFO, () -> "getAllEmployes : " + employes);
