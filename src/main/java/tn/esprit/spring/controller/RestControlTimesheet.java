@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,15 +21,13 @@ import tn.esprit.spring.services.ITimesheetService;
 
 @RestController
 public class RestControlTimesheet {
-
-	@Autowired
+@Autowired
 	IEmployeService iemployeservice;
 	@Autowired
 	IEntrepriseService ientrepriseservice;
 	@Autowired
 	ITimesheetService itimesheetservice;
 	
-	// http://localhost:8081/SpringMVC/servlet/ajouterMission
 	@PostMapping("/ajouterMission")
 	@ResponseBody
 	public int ajouterMission(@RequestBody Mission mission) {
@@ -36,14 +35,12 @@ public class RestControlTimesheet {
 		return mission.getId();
 	}
 
-	// http://localhost:8081/SpringMVC/servlet/affecterMissionADepartement/4/4
 	@PutMapping(value = "/affecterMissionADepartement/{idmission}/{iddept}") 
 	public void affecterMissionADepartement(@PathVariable("idmission") int missionId, @PathVariable("iddept") int depId) {
 		itimesheetservice.affecterMissionADepartement(missionId, depId);
 
 	}
 	
-	// http://localhost:8081/SpringMVC/servlet/ajouterTimesheet
 	
 	@PostMapping("/ajouterTimesheet/idmission/idemp/dated/datef")
 	@ResponseBody
@@ -52,14 +49,12 @@ public class RestControlTimesheet {
 
 	}
 
-	// http://localhost:8081/SpringMVC/servlet/affecterMissionADepartement/4/4
 	@PutMapping(value = "/validerTimesheet/{idmission}/{iddept}") 
 	public void validerTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin, int validateurId) {
 		itimesheetservice.validerTimesheet(missionId, employeId, dateDebut, dateFin, validateurId);
 
 	}
 	
-	// URL : http://localhost:8081/SpringMVC/servlet/findAllMissionByEmployeJPQL/1
     @GetMapping(value = "findAllMissionByEmployeJPQL/{idemp}")
     @ResponseBody
 	public List<Mission> findAllMissionByEmployeJPQL(@PathVariable("idemp") int employeId) {
@@ -67,11 +62,46 @@ public class RestControlTimesheet {
 		return itimesheetservice.findAllMissionByEmployeJPQL(employeId);
 	}
 
-    // URL : http://localhost:8081/SpringMVC/servlet/getAllEmployeByMission/1
     @GetMapping(value = "getAllEmployeByMission/{idmission}")
     @ResponseBody
 	public List<Employe> getAllEmployeByMission(@PathVariable("idmission") int missionId) {
 
 		return itimesheetservice.getAllEmployeByMission(missionId);
 	}
+    
+    @GetMapping(value = "/getAllMission")
+    @ResponseBody
+	public List<Mission> getAllMissions() {
+		
+		return itimesheetservice.getAllMissions();
+	}
+    
+    @DeleteMapping("/deleteMissionById/{idmission}") 
+   	@ResponseBody 
+   	public void deletemissionById(@PathVariable("idmission")int idmission)
+   	{
+    	itimesheetservice.deleteMissionById(idmission);
+   	}
+
+    @GetMapping(value = "getmissionById/{idmission}")
+    @ResponseBody
+	public Mission getmissionById(@PathVariable("idmission") int idmission) {
+
+		return itimesheetservice.getMissionById(idmission);
+	}
+    
+    @PutMapping(value = "/mettreAjourDescriptionByMissionId/{id}/{description}") 
+ 	@ResponseBody
+	public void mettreAjourDescriptionByMissionId(@PathVariable("description") String description, @PathVariable("id") int id) {	
+    	itimesheetservice.mettreAjourDescriptionByMissionId(description, id);
+		
+	}
+    
+    @GetMapping(value = "findAllMissionBydepartementJPQL/{iddep}")
+    @ResponseBody
+	public List<Mission> findAllMissionBydepartementJPQL(@PathVariable("iddep") int iddep) {
+
+		return itimesheetservice.findAllMissionBydepartementJPQL(iddep);
+	}
+    
 }

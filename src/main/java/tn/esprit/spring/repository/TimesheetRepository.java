@@ -14,7 +14,7 @@ import tn.esprit.spring.entities.TimesheetPK;
 
 public interface TimesheetRepository extends CrudRepository<Timesheet, Integer> {
 
-	@Query("select DISTINCT m from Mission m join m.timesheets t join t.employe e where e.id=:employeId")
+		@Query("select DISTINCT m from Mission m join m.timesheets t join t.employe e where e.id=:employeId")
 	public List<Mission> findAllMissionByEmployeJPQL(@Param("employeId")int employeId);
 	
 	@Query("select DISTINCT e from Employe e "
