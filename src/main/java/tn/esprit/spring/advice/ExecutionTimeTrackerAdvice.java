@@ -18,7 +18,7 @@ Logger logger=LoggerFactory.getLogger(ExecutionTimeTrackerAdvice.class);
 		long stratTime=System.currentTimeMillis();
 		Object obj=pjp.proceed();
 		long endTime=System.currentTimeMillis();
-		logger.info("Method "+pjp.getSignature()+" time taken to execute : "+(endTime-stratTime));
+		logger.info("Method with name: "+pjp.getSignature()+" time taken to execute : "+(endTime-stratTime));
 		return obj;
 	}
 }
