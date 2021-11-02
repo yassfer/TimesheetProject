@@ -1,6 +1,7 @@
 package tn.esprit.spring;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 import java.util.List;
@@ -61,13 +62,17 @@ public class EmployeServiceImplTest {
 	private static String mail = "ferchichi@gmail.com";
 	private Employe employe1;
 	private Employe employe2;
-	private Entreprise entreprise;
+	private Employe employe3;
+	private Employe employe4;
 
-	Contrat contrat;
+	private Entreprise entreprise;
+	private Departement departement;
+	private Contrat contrat1;
+	private Contrat contrat2;
+
 
 	@Before
 	public void setUp() {
-		Departement departement;
 
 		entreprise = entrepRepository.save(new Entreprise("ESPRIT", "educatif"));
 		departement = deptRepoistory.save(new Departement("Recherche"));
@@ -76,13 +81,25 @@ public class EmployeServiceImplTest {
 
 		employe1 = new Employe("Ferchichi", "Yasmine", "yasmine@gmail.com", true, Role.INGENIEUR);
 		employe2 = new Employe("Korkad", "Nada", "nada@gmail.com", false, Role.INGENIEUR);
-		employeRepository.save(employe1);
-		employeRepository.save(employe2);
-		employeService.affecterEmployeADepartement(employe1.getId(), departement.getId());
+		employe3 = new Employe("Laffet", "Eya", "eya@gmail.com", false, Role.INGENIEUR);
+		employe4 = new Employe("Laffet", "Anas", "anas@gmail.com", false, Role.INGENIEUR);
 
-		contrat = contratRepoistory.save(new Contrat(new Date(2020, 04, 10), "CDI", 2000));
-		contrat.setEmploye(employe1);
-		contratRepoistory.save(contrat);
+		employeRepository.save(employe1);
+		employeRepository.save(employe3);
+		employeRepository.save(employe4);
+		employeService.affecterEmployeADepartement(employe1.getId(), departement.getId());
+		employeService.affecterEmployeADepartement(employe4.getId(), departement.getId());
+
+
+		contrat1 = contratRepoistory.save(new Contrat(new Date(2020, 04, 10), "CDI", 2000));
+		contrat2 = contratRepoistory.save(new Contrat(new Date(2020, 04, 10), "CDI", 1000));
+
+		contrat1.setEmploye(employe1);
+		contrat2.setEmploye(employe4);
+
+		contratRepoistory.save(contrat1);
+		contratRepoistory.save(contrat2);
+
 	}
 
 	@After
@@ -93,6 +110,42 @@ public class EmployeServiceImplTest {
 		employeRepository.deleteAll();
 	}
 
+	/*******************amal***************/
+	@Test
+	public void testaffecterEmployeADepartement() {
+		boolean res= false;
+		employeService.affecterEmployeADepartement(employe3.getId(), departement.getId());
+		Optional<Employe> e = employeRepository.findById(employe3.getId());
+		List<Departement> deps= e.get().getDepartements();
+		for (int i=0; i<deps.size(); i++){
+			if(deps.get(i).getId()==departement.getId()){
+				res=true;
+			}
+		}
+		assertThat(res).isTrue();
+	}
+
+	@Test
+	public void testdesaffecterEmployeDuDepartement() {
+		boolean res= true;
+		employeService.desaffecterEmployeDuDepartement(employe3.getId(), departement.getId());
+		Optional<Employe> e = employeRepository.findById(employe3.getId());
+		List<Departement> deps= e.get().getDepartements();
+		for (int i=0; i<deps.size(); i++){
+			if(deps.get(i).getId()==departement.getId()){
+				res=false;
+			}
+		}
+		assertThat(res).isTrue();
+
+}
+
+	@Test
+	public void testgetSalaireMoyenByDepartementId(){
+		Double res= employeService.getSalaireMoyenByDepartementId(departement.getId());
+		Double test=(double) 1500;
+		assertEquals(test,res);
+	}
 	@Test
 	public void ajouterEmployeTest() {
 		Employe savedEmploye = new Employe("Laffet", "Amal", "amal@gmail.com", false, Role.INGENIEUR);
@@ -127,7 +180,7 @@ public class EmployeServiceImplTest {
 	public void getNombreEmployeJPQLTest() {
 		int nbr = employeService.getNombreEmployeJPQL();
 		l.log(Level.INFO, () -> "getNombreEmployeJPQL : " + nbr);
-		assertThat(nbr).isEqualTo(2);
+		assertThat(nbr).isEqualTo(3);
 	}
 
 	@Test
@@ -142,7 +195,7 @@ public class EmployeServiceImplTest {
 	public void getAllEmployeByEntrepriseTest() {
 		List<Employe> employes = employeService.getAllEmployeByEntreprise(entreprise);
 		l.log(Level.INFO, () -> "getAllEmployeByEntreprise : " + employes);
-		assertThat(employes.size()).isEqualTo(1);
+		assertThat(employes.size()).isEqualTo(2);
 	}
 
 	@Test
@@ -167,4 +220,8 @@ public class EmployeServiceImplTest {
 		l.log(Level.INFO, () -> "getAllEmployes : " + employes);
 		assertThat(employes.size()).isGreaterThan(0);
 	}
+	
+
+
+
 }
