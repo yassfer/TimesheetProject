@@ -7,7 +7,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b2683afef1c3eb0d8175152244153417c154442
 import tn.esprit.spring.advice.TrackExecutionTime;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
@@ -250,11 +253,64 @@ public class EmployeServiceImpl implements IEmployeService {
 			logger.log(Level.INFO, ()-> "getContratById : " + contratList);
 			return contratList.get();
 		}
+<<<<<<< HEAD
 		return null;
 	}
 
 	public Contrat getAllContratByEmploye(Employe employe) {
 		return contratRepoistory.getAllContratByEmploye(employe);
 	}
+=======
+		//dyna Imen
+		public void deleteContractById(int contatId) {
+		Optional<Contrat> contdelete=contratRepoistory.findById(contatId);
+			if(contdelete.isPresent()) {
+				contratRepoistory.delete(contdelete.get());}
+			}
+			
+			
+			//Imen
+			public void deleteAllContratJPQL() {
+		         employeRepository.deleteAllContratJPQL();
+			}
+			
+			//Imen
+			public List<Contrat> getAllContrats() {
+				
+				//logging
+				 logger.info("getAllContrats:" );
+				return (List<Contrat>) contratRepoistory.findAll();
+				
+			}
+			
+			
+
+		/*	//Imen
+			@Override
+			public String getContratTypeById(int reference) {
+				String type ="test" ;
+				try {
+				logger.info("In getContratTypeById(" + reference + ")");
+				Contrat contratManagedEntity = contratRepoistory.findById(reference).get();
+				type = contratManagedEntity.getTypeContrat();
+				logger.info("Out getContratTypeById : " + type);
+				}catch (Exception e) {logger.error("Erreur : " + e);}
+
+				return type;
+			}
+			
+	/*		//Imen dynamique
+			public Contrat getContratById(int reference) {
+			 	Contrat contratList = (Contrat)contratRepoistory.findById(reference).get();	
+				//logging
+			 	logger.info("getContratById : "+ contratList);
+			 	return contratList; }
+			
+			
+
+			public Contrat getAllContratByEmploye(Employe employe) {
+				return contratRepoistory.getAllContratByEmploye(employe);
+			}*/
+>>>>>>> 3b2683afef1c3eb0d8175152244153417c154442
 
 }

@@ -1,21 +1,9 @@
 package tn.esprit.spring;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import org.apache.logging.log4j.Level;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import org.springframework.test.context.junit4.SpringRunner;
 
+<<<<<<< HEAD
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
@@ -145,5 +133,12 @@ public class ContratServiceImplTest {
 		Optional<Contrat> contratdelete = contratRepoistory.findById(contrat.getReference());
 		assertThat(contratdelete).isEmpty();
 	}
+=======
+public class ContratServiceImplTest {
+
+	
+}
+
+>>>>>>> 3b2683afef1c3eb0d8175152244153417c154442
 
 }

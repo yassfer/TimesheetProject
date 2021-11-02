@@ -23,7 +23,7 @@ import tn.esprit.spring.services.EntrepriseServiceImpl;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EntrepriseServiceImplTest {
-	private static final Logger l = LogManager.getLogger(EntrepriseServiceImplTest.class);
+
 	@Mock
 	@Autowired
 	private EmployeRepository employeRepository;
