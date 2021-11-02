@@ -7,8 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import tn.esprit.spring.ContratServiceImplTest;
 import tn.esprit.spring.advice.TrackExecutionTime;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
@@ -234,7 +232,7 @@ public class EmployeServiceImpl implements IEmployeService {
 			
 			
 
-			//Imen
+		/*	//Imen
 			@Override
 			public String getContratTypeById(int reference) {
 				String type ="test" ;
@@ -248,7 +246,7 @@ public class EmployeServiceImpl implements IEmployeService {
 				return type;
 			}
 			
-			//Imen dynamique
+	/*		//Imen dynamique
 			public Contrat getContratById(int reference) {
 			 	Contrat contratList = (Contrat)contratRepoistory.findById(reference).get();	
 				//logging
@@ -259,6 +257,6 @@ public class EmployeServiceImpl implements IEmployeService {
 
 			public Contrat getAllContratByEmploye(Employe employe) {
 				return contratRepoistory.getAllContratByEmploye(employe);
-			}
+			}*/
 
 }

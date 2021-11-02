@@ -52,6 +52,7 @@ public class IEntrepriseServiceTest extends BaseJUnit49TestCase {
 		getEntrepriseByIdTest();
 		deleteEntrepriseByIdTest();
 		mettreAjourEmailByEmployeIdTest();
+		
 	}
 	@Test
 	public void ajouterEntrepriseTest() {
@@ -96,7 +97,7 @@ public class IEntrepriseServiceTest extends BaseJUnit49TestCase {
 		List<Entreprise> entreprises = entrepriseService.getAllEntreprise();
 		LOG.log(Level.INFO, () -> "getAllEntreprise : " + entreprises);
 		assertThat(entreprises.size()).isGreaterThan(0);
-	}*/
+	}
 	
 	/*@Test
 	public void getNbrEntrepriseJPQLTest() {

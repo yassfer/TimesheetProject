@@ -34,7 +34,7 @@ public interface IEmployeService {
 	
 	
 //Imen
-	
+/*	
 	public List<Contrat> getAllContrats();
 	String getContratTypeById(int reference);
 	public Contrat getContratById(int reference);
@@ -42,7 +42,7 @@ public interface IEmployeService {
 	public Contrat getAllContratByEmploye(Employe employe);
 	public int getNombreContratJPQL();
 	
-	
+	*/
 	
 
 	
