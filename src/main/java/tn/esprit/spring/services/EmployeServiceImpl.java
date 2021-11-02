@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tn.esprit.spring.ContratServiceImplTest;
 import tn.esprit.spring.advice.TrackExecutionTime;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
@@ -22,9 +23,20 @@ import tn.esprit.spring.repository.TimesheetRepository;
 
 import java.util.Optional;
 
+
+
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import exceptions.ResourceNotFoundException;
+
+
 @Service
 public class EmployeServiceImpl implements IEmployeService {
-
+	private static final Logger logger = LogManager.getLogger(EmployeServiceImpl.class);
+	
 	@Autowired
 	EmployeRepository employeRepository;
 	@Autowired
@@ -87,22 +99,7 @@ public class EmployeServiceImpl implements IEmployeService {
 		
 	}
 
-	//Imen
-	public int ajouterContrat(Contrat contrat) {
-		contratRepoistory.save(contrat);
-		return contrat.getReference();
-	}
-
-	//Imen
-	public void affecterContratAEmploye(int contratId, int employeId) {
-		Optional<Contrat> contratManagedEntity = contratRepoistory.findById(contratId);
-		Optional<Employe> employeManagedEntity = employeRepository.findById(employeId);
-		
-		if(contratManagedEntity.isPresent() && employeManagedEntity.isPresent()) {
-			contratManagedEntity.get().setEmploye(employeManagedEntity.get());
-			contratRepoistory.save(contratManagedEntity.get());
-		}
-	}
+	
 
 	//Yasmin
 	@TrackExecutionTime
@@ -133,13 +130,7 @@ public class EmployeServiceImpl implements IEmployeService {
 		}
 	}
 
-	//Imen
-	public void deleteContratById(int contratId) {
-		Optional<Contrat> contratManagedEntity = contratRepoistory.findById(contratId);
-		if(contratManagedEntity.isPresent()) {
-			contratRepoistory.delete(contratManagedEntity.get());
-		}
-	}
+	
 
 	//Yasmin
 	@TrackExecutionTime
@@ -166,10 +157,6 @@ public class EmployeServiceImpl implements IEmployeService {
 		employeRepository.mettreAjourEmailByEmployeIdJPQL(email, employeId);
 
 	}
-	//Imen
-	public void deleteAllContratJPQL() {
-         employeRepository.deleteAllContratJPQL();
-	}
 	
 	//Yasmin
 	@TrackExecutionTime
@@ -193,5 +180,85 @@ public class EmployeServiceImpl implements IEmployeService {
 	public List<Employe> getAllEmployes() {
 				return (List<Employe>) employeRepository.findAll();
 	}
+	
+	
+	//Imen
+		public int ajouterContrat(Contrat contrat) {
+			contratRepoistory.save(contrat);
+			return contrat.getReference();
+		}
+		
+		//Imen
+		public int getNombreContratJPQL() {
+			return contratRepoistory.countcontrat();
+		}
+		
+
+
+		//Imen
+		public void affecterContratAEmploye(int contratId, int employeId) {
+			Contrat contratManagedEntity = contratRepoistory.findById(contratId).orElseThrow(() -> new ResourceNotFoundException("Contrat not found with this id : " + contratId));
+			Employe employeManagedEntity = employeRepository.findById(employeId).orElseThrow(() -> new ResourceNotFoundException("Employé not found with this id : " + employeId));
+
+			contratManagedEntity.setEmploye(employeManagedEntity);
+			contratRepoistory.save(contratManagedEntity);
+			
+		}
+		//Imen
+		public void deleteContratById(int contratId) {
+			Contrat contratManagedEntity = contratRepoistory.findById(contratId).orElseThrow(() -> new ResourceNotFoundException("Contrat not found with this id : " + contratId));
+			contratRepoistory.delete(contratManagedEntity);
+
+		}
+		//dyna Imen
+		public void deleteContractById(int contatId) {
+		Optional<Contrat> contdelete=contratRepoistory.findById(contatId);
+			if(contdelete.isPresent()) {
+				contratRepoistory.delete(contdelete.get());}
+			}
+			
+			
+			//Imen
+			public void deleteAllContratJPQL() {
+		         employeRepository.deleteAllContratJPQL();
+			}
+			
+			//Imen
+			public List<Contrat> getAllContrats() {
+				
+				//logging
+				 logger.info("getAllContrats:" );
+				return (List<Contrat>) contratRepoistory.findAll();
+				
+			}
+			
+			
+
+			//Imen
+			@Override
+			public String getContratTypeById(int reference) {
+				String type ="test" ;
+				try {
+				logger.info("In getContratTypeById(" + reference + ")");
+				Contrat contratManagedEntity = contratRepoistory.findById(reference).get();
+				type = contratManagedEntity.getTypeContrat();
+				logger.info("Out getContratTypeById : " + type);
+				}catch (Exception e) {logger.error("Erreur : " + e);}
+
+				return type;
+			}
+			
+			//Imen dynamique
+			public Contrat getContratById(int reference) {
+			 	Contrat contratList = (Contrat)contratRepoistory.findById(reference).get();	
+				//logging
+			 	logger.info("getContratById : "+ contratList);
+			 	return contratList; }
+			
+			
+
+			public Contrat getAllContratByEmploye(Employe employe) {
+				return contratRepoistory.getAllContratByEmploye(employe);
+			}
 
 }

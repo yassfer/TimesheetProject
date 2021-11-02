@@ -13,7 +13,6 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Contrat implements Serializable {
-	
 	private static final long serialVersionUID = 6191889143079517027L;
 
 	@Id
@@ -33,13 +32,29 @@ public class Contrat implements Serializable {
 	public Contrat() {
 		super();
 	}
-	
+
 	public Contrat(Date dateDebut, String typeContrat, float salaire) {
 		this.dateDebut = dateDebut;
 		this.typeContrat = typeContrat;
 		this.salaire = salaire;
 	}
 
+
+	public Contrat(int reference, Date dateDebut, String typeContrat, float salaire, Employe employe) {
+		super();
+		this.reference = reference;
+		this.dateDebut = dateDebut;
+		this.typeContrat = typeContrat;
+		this.salaire = salaire;
+		this.employe = employe;
+	}
+	
+	public Contrat(int reference, String typeContrat) {
+		super();
+		this.reference = reference;
+		this.typeContrat = typeContrat;
+		
+	}
 
 	public Date getDateDebut() {
 		return dateDebut;
@@ -80,6 +95,8 @@ public class Contrat implements Serializable {
 	public void setEmploye(Employe employe) {
 		this.employe = employe;
 	}
+
+	
 	
 	
 }

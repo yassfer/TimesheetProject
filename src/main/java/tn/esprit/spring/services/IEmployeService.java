@@ -33,6 +33,16 @@ public interface IEmployeService {
 	Date dateDebut, Date dateFin);
 	
 	
+//Imen
+	
+	public List<Contrat> getAllContrats();
+	String getContratTypeById(int reference);
+	public Contrat getContratById(int reference);
+	public void deleteContractById(int contatId);
+	public Contrat getAllContratByEmploye(Employe employe);
+	public int getNombreContratJPQL();
+	
+	
 	
 
 	
