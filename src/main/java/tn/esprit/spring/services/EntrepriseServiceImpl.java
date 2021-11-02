@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tn.esprit.spring.advice.TrackExecutionTime;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.repository.DepartementRepository;
@@ -83,5 +84,25 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	public Optional<Entreprise> getEntrepriseById(int entrepriseId) {
 		return Optional.ofNullable(entrepriseRepoistory.findById(entrepriseId)).orElse(null);	
 	}
+	//Dhekra
+			@TrackExecutionTime
+			public void mettreAjourNameByEntrepriseId(String name, int entrepriseId) {
+				Optional<Entreprise> entreprise = entrepriseRepoistory.findById(entrepriseId);
+				if(entreprise.isPresent()) {
+					entreprise.get().setName(name);
+					entrepriseRepoistory.save(entreprise.get());
+				}
+			}
+		
+		//Dhekra
+			@TrackExecutionTime
+			public List<Entreprise> getAllEntreprise() {
+						return (List<Entreprise>) entrepriseRepoistory.findAll();
+			}
 
+
+			@TrackExecutionTime
+			public int getNbrEntrepriseJPQL() {
+				return entrepriseRepoistory.countentreprise();
+			}
 }

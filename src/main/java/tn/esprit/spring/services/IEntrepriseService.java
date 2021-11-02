@@ -15,4 +15,7 @@ public interface IEntrepriseService {
 	public void deleteEntrepriseById(int entrepriseId);
 	public void deleteDepartementById(int depId);
 	public Optional<Entreprise> getEntrepriseById(int entrepriseId);
+	public void mettreAjourNameByEntrepriseId(String name, int entrepriseId);
+	public List<Entreprise> getAllEntreprise();
+	public int getNbrEntrepriseJPQL();
 }
