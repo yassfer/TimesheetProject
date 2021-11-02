@@ -28,10 +28,6 @@ import tn.esprit.spring.services.EmployeServiceImpl;
 import tn.esprit.spring.services.IEmployeService;
 
 
-
-
-
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ContratServiceImplTest {
@@ -164,7 +160,7 @@ public class ContratServiceImplTest {
 			
  }
 	
-	@Test
+	/*@Test
     public void TestgetContratById()
     {   
         //test
@@ -173,7 +169,7 @@ public class ContratServiceImplTest {
         
     }
 	
-
+*/
  
  //dyn
 	
