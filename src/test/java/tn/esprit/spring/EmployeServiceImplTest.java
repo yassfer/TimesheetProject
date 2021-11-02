@@ -81,8 +81,8 @@ public class EmployeServiceImplTest {
 
 		employe1 = new Employe("Ferchichi", "Yasmine", "yasmine@gmail.com", true, Role.INGENIEUR);
 		employe2 = new Employe("Korkad", "Nada", "nada@gmail.com", false, Role.INGENIEUR);
-		employe3 = new Employe("Laffet", "Eya", "eya@gmail.com", false, Role.INGENIEUR);
-		employe4 = new Employe("Laffet", "Anas", "anas@gmail.com", false, Role.INGENIEUR);
+		employe3 = new Employe("Salah", "Eya", "eya@gmail.com", false, Role.INGENIEUR);
+		employe4 = new Employe("Fahem", "Anas", "anas@gmail.com", false, Role.INGENIEUR);
 
 		employeRepository.save(employe1);
 		employeRepository.save(employe3);
@@ -116,13 +116,15 @@ public class EmployeServiceImplTest {
 		boolean res= false;
 		employeService.affecterEmployeADepartement(employe3.getId(), departement.getId());
 		Optional<Employe> e = employeRepository.findById(employe3.getId());
-		List<Departement> deps= e.get().getDepartements();
-		for (int i=0; i<deps.size(); i++){
-			if(deps.get(i).getId()==departement.getId()){
-				res=true;
+		if(e.isPresent()) {
+			List<Departement> deps= e.get().getDepartements();
+			for (int i=0; i<deps.size(); i++){
+				if(deps.get(i).getId()==departement.getId()){
+					res=true;
+				}
 			}
+			assertThat(res).isTrue();
 		}
-		assertThat(res).isTrue();
 	}
 
 	@Test
@@ -130,14 +132,16 @@ public class EmployeServiceImplTest {
 		boolean res= true;
 		employeService.desaffecterEmployeDuDepartement(employe3.getId(), departement.getId());
 		Optional<Employe> e = employeRepository.findById(employe3.getId());
-		List<Departement> deps= e.get().getDepartements();
-		for (int i=0; i<deps.size(); i++){
-			if(deps.get(i).getId()==departement.getId()){
-				res=false;
+		if(e.isPresent()) {
+			List<Departement> deps= e.get().getDepartements();
+			for (int i=0; i<deps.size(); i++){
+				if(deps.get(i).getId()==departement.getId()){
+					res=false;
+				}
 			}
+			assertThat(res).isTrue();
 		}
-		assertThat(res).isTrue();
-
+		
 }
 
 	@Test

@@ -3,7 +3,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Optional;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -14,14 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.repository.DepartementRepository;
 import tn.esprit.spring.repository.EmployeRepository;
 import tn.esprit.spring.repository.EntrepriseRepository;
-import tn.esprit.spring.services.EmployeServiceImpl;
 import tn.esprit.spring.services.EntrepriseServiceImpl;
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -57,15 +54,21 @@ public class EntrepriseServiceImplTest {
 	public void testAjouterDepartement() {
 		Departement dep = new Departement("Finance");
 		int AddedepID = entrepriseService.ajouterDepartement(dep);
-		String name=deptRepository.findById(AddedepID).get().getName();
-		assertEquals("Finance", name);
+		Optional<Departement> departement = deptRepository.findById(AddedepID);
+		if(departement.isPresent()) {
+			String name= departement.get().getName();
+			assertEquals("Finance", name);
+		}
+		
 	}
 	@Test
 	public void testAffecterDepartementAEntreprise() {
 		entrepriseService.affecterDepartementAEntreprise(departement.getId(), entreprise.getId());
 		Optional<Departement> dep = deptRepository.findById(departement.getId());
-		Entreprise emps= dep.get().getEntreprise();
-		assertEquals(emps.getId(), entreprise.getId());
+		if(dep.isPresent()) {
+			Entreprise emps= dep.get().getEntreprise();
+			assertEquals(emps.getId(), entreprise.getId());
+		}
 		
 	}
 	@Test
@@ -76,7 +79,6 @@ public class EntrepriseServiceImplTest {
 	@Test
 	public void testDeleteDepartementById() {
 		entrepriseService.deleteDepartementById(departement.getId());
-		Optional<Departement> deletedDepartement = deptRepository.findById(departement.getId());
-		assertThat(deptRepository.findAll().isEmpty());
+		assertThat(deptRepository.findAll()).isEmpty();
 	}
 }
