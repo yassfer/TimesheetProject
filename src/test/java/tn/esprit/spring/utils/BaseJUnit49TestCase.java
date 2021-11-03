@@ -1,5 +1,7 @@
 package tn.esprit.spring.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,12 @@ public abstract class BaseJUnit49TestCase extends BaseSpringAwareTestCase {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
 
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
 
     }
 

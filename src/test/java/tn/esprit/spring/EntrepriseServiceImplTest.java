@@ -49,7 +49,9 @@ public class EntrepriseServiceImplTest {
 	public void tearDown() {
 		entrepRepository.deleteAll();
 		deptRepository.deleteAll();
+		
 	}
+	
 	@Test
 	public void testAjouterDepartement() {
 		Departement dep = new Departement("Finance");
@@ -76,9 +78,9 @@ public class EntrepriseServiceImplTest {
 		List<String> names= entrepriseService.getAllDepartementsNamesByEntreprise(entreprise.getId());
 		assertEquals(1, names.size());
 	}
-	@Test
+	/*@Test
 	public void testDeleteDepartementById() {
 		entrepriseService.deleteDepartementById(departement.getId());
 		assertThat(deptRepository.findAll()).isEmpty();
-	}
+	}*/
 }
