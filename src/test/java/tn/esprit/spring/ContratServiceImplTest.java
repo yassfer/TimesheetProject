@@ -3,7 +3,6 @@ package tn.esprit.spring;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.apache.logging.log4j.Level;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +40,6 @@ public class ContratServiceImplTest {
 	@Autowired
 	private EmployeRepository employeRepository;
 	
-	//private static final Logger logger = Logger.getLogger(ContratServiceImplTest.class);
 	private static final Logger l = LogManager.getLogger(ContratServiceImplTest.class);
 	
 
@@ -146,7 +144,6 @@ public class ContratServiceImplTest {
 		@Test
 		public void TestgetNombreContratJPQL() {
 			int nbr = iEmployeService.getNombreContratJPQL();
-			//l.log(Level.INFO, () -> "getNombreContratJPQL : " + nbr);
 			l.info("getNombreContratJPQLTest"+ nbr);
 			assertThat(nbr).isEqualTo(1);
 		}

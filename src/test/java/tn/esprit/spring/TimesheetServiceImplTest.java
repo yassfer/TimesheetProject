@@ -115,7 +115,6 @@ public class TimesheetServiceImplTest {
 		public void testdeleteMissionById() {
 		 
 		  timesheetServiceImpl.deleteMissionById(mis2.getId());
-		  Optional<Mission> missiondelete = missionRepository.findById(mis2.getId());
 	    //  assertThat(missiondelete).isNull();
 		}
 	

@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 public abstract class BaseJUnit49TestCase extends BaseSpringAwareTestCase {
-    private static final Logger LOG = LogManager.getLogger(BaseJUnit49TestCase.class);
 
-    private final IdTestHelper idHelper = new IdTestHelper();
     @Autowired
     protected ApplicationContext applicationContext;
 

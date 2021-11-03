@@ -77,7 +77,6 @@ public class IEntrepriseServiceTest extends BaseJUnit49TestCase {
 		LOG.info("Start deleteEntrepriseById method test");
 		LOG.info("Entreprise id" + this.entreprise.getId());
 		entServ.deleteEntrepriseById(this.entreprise.getId());
-		//assertNull(entServ.getEntrepriseById(this.entreprise.getId()));
 		LOG.info("End deleteEntrepriseById method test");
 
 	}

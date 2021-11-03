@@ -12,7 +12,7 @@ public abstract class BaseSpringAwareTestCase {
 
     private final IdTestHelper idHelper = new IdTestHelper();
 
-    public BaseSpringAwareTestCase() {
+    protected BaseSpringAwareTestCase() {
     }
 
     protected IdTestHelper getIdHelper() {
