@@ -76,6 +76,7 @@ public class TimesheetServiceImplTest {
 		if (mis.isPresent()) {
 			assertEquals("update", mis.get().getDescription());
 		}
+<<<<<<< HEAD
 	}
 
 	@Test
@@ -100,6 +101,55 @@ public class TimesheetServiceImplTest {
 		Optional<Mission> misList = timesheetServiceImpl.getMissionById(mis1.getId());
 		if (misList.isPresent()) {
 			assertEquals(mis1.getName(), misList.get().getName());
+=======
+	
+	
+	 @Test
+	    public void testmettreAjourDescriptionByMissionId() {
+		
+		 timesheetServiceImpl.mettreAjourDescriptionByMissionId(update,mis1.getId());
+		 Optional<Mission> mis = missionRepository.findById(mis1.getId());
+	      assertEquals("update", mis.get().getDescription());
+	    }
+	
+	
+	
+	 
+	 @Test
+	    public void TestgetAllMissions()
+	    {   
+	        //test
+	        List<Mission> misList = timesheetServiceImpl.getAllMissions();
+	    	assertThat(misList.size()).isEqualTo(2);
+	       
+	    }
+	 
+	 @Test
+	    public void TestfindAllMissionBydepartementJPQL()
+	    {   
+	        //test
+			 List<Mission>misList = timesheetServiceImpl.findAllMissionBydepartementJPQL(departement.getId());
+			 assertThat(misList.size()).isEqualTo(0);
+	      
+	    } 
+	 
+	 @Test
+	    public void TestgetMissionById()
+	    {   
+	        //test
+		 Optional<Mission>  misList = timesheetServiceImpl.getMissionById(mis1.getId());
+	        assertEquals(mis1.getName(), misList.get().getName());
+	        
+	    }
+	     
+	 
+	 
+	 @Test
+		public void testdeleteMissionById() {
+		 
+		  timesheetServiceImpl.deleteMissionById(mis2.getId());
+	    //  assertThat(missiondelete).isNull();
+>>>>>>> 40ce4a9
 		}
 	}
 

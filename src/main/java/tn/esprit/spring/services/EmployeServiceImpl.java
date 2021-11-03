@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 =======
 >>>>>>> 3b2683afef1c3eb0d8175152244153417c154442
+=======
+>>>>>>> 40ce4a9
 import tn.esprit.spring.advice.TrackExecutionTime;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
@@ -213,6 +216,7 @@ public class EmployeServiceImpl implements IEmployeService {
 			contratRepoistory.delete(contdelete.get());
 		}
 	}
+<<<<<<< HEAD
 
 	// Imen
 	public void deleteAllContratJPQL() {
@@ -239,6 +243,35 @@ public class EmployeServiceImpl implements IEmployeService {
 				type = contratManagedEntity.get().getTypeContrat();
 				logger.info("Out getContratTypeById : " + type);
 			}
+=======
+
+	// Imen
+	public void deleteAllContratJPQL() {
+		employeRepository.deleteAllContratJPQL();
+	}
+
+	// Imen
+	public List<Contrat> getAllContrats() {
+
+		// logging
+		logger.info("getAllContrats:");
+		return (List<Contrat>) contratRepoistory.findAll();
+
+	}
+
+	// Imen
+	@Override
+	public String getContratTypeById(int reference) {
+		String type = "test";
+		try {
+			logger.log(Level.INFO, () -> "In getContratTypeById(" + reference + ")");
+			Optional<Contrat> contratManagedEntity = contratRepoistory.findById(reference);
+			if (contratManagedEntity.isPresent()) {
+				type = contratManagedEntity.get().getTypeContrat();
+				logger.info("Out getContratTypeById : " + type);
+			}
+
+>>>>>>> 40ce4a9
 		} catch (Exception e) {
 			logger.error("Erreur : " + e);
 		}
@@ -249,6 +282,7 @@ public class EmployeServiceImpl implements IEmployeService {
 	// Imen dynamique
 	public Contrat getContratById(int reference) {
 		Optional<Contrat> contratList = contratRepoistory.findById(reference);
+<<<<<<< HEAD
 		if(contratList.isPresent()) {
 			logger.log(Level.INFO, ()-> "getContratById : " + contratList);
 			return contratList.get();
@@ -312,5 +346,18 @@ public class EmployeServiceImpl implements IEmployeService {
 				return contratRepoistory.getAllContratByEmploye(employe);
 			}*/
 >>>>>>> 3b2683afef1c3eb0d8175152244153417c154442
+=======
+		// logging
+		if (contratList.isPresent()) {
+			logger.info("getContratById : " + contratList);
+			return contratList.get();
+		}
+		return null;
+	}
+
+	public Contrat getAllContratByEmploye(Employe employe) {
+		return contratRepoistory.getAllContratByEmploye(employe);
+	}
+>>>>>>> 40ce4a9
 
 }
