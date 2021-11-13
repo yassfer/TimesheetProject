@@ -21,11 +21,14 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
     EntrepriseRepository entrepriseRepoistory;
 	@Autowired
 	DepartementRepository deptRepoistory;
+
+
 	//Dhekra
-	public int ajouterEntreprise(Entreprise entreprise) {
-		entrepriseRepoistory.save(entreprise);
-		return entreprise.getId();
-	}
+		@TrackExecutionTime
+		public int ajouterEntreprise(Entreprise entreprise) {
+			entrepriseRepoistory.save(entreprise);
+			return entreprise.getId();
+		}
 
 	//Amal
 	public int ajouterDepartement(Departement dep) {
@@ -61,14 +64,16 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	}
 
 	//Dhekra
-	@Transactional
-	public void deleteEntrepriseById(int entrepriseId) {
-		Optional<Entreprise> e = entrepriseRepoistory.findById(entrepriseId);
-		if(e.isPresent()) {
-			entrepriseRepoistory.delete(e.get());
+		@TrackExecutionTime
+		@Transactional
+		public void deleteEntrepriseById(int entrepriseId) {
+			Optional<Entreprise> e = entrepriseRepoistory.findById(entrepriseId);
+			if(e.isPresent()) {
+				entrepriseRepoistory.delete(e.get());
+			}
+				
 		}
-			
-	}
+
 
 	//Amal
 	@Transactional
@@ -78,6 +83,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 			deptRepoistory.delete(d.get());
 		}
 	}
+
 
 
 	//Dhekra
@@ -99,7 +105,11 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 			public List<Entreprise> getAllEntreprise() {
 						return (List<Entreprise>) entrepriseRepoistory.findAll();
 			}
+			@TrackExecutionTime
+			public List<String> getAllEntrepriseNamesJPQL() {
+				return entrepriseRepoistory.entrepriseNames();
 
+			}
 
 			@TrackExecutionTime
 			public int getNbrEntrepriseJPQL() {

@@ -39,7 +39,7 @@ public class IEntrepriseServiceTest extends BaseJUnit49TestCase {
 	private static String name = "ESPRIT";
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp(){
 		super.setUp();
 		this.entreprise = new Entreprise();
 		this.entreprise.setName(getIdHelper().createRandomString(5));
@@ -52,6 +52,8 @@ public class IEntrepriseServiceTest extends BaseJUnit49TestCase {
 		getEntrepriseByIdTest();
 		deleteEntrepriseByIdTest();
 		mettreAjourEmailByEmployeIdTest();
+		
+		
 	}
 	@Test
 	public void ajouterEntrepriseTest() {
@@ -90,12 +92,19 @@ public class IEntrepriseServiceTest extends BaseJUnit49TestCase {
 			assertThat(e.get().getName()).isEqualTo(name);
 		}
 	}
-	/*@Test
+    /*@Test
 	public void getAllEntrepriseTest() {
-		List<Entreprise> entreprises = entrepriseService.getAllEntreprise();
-		LOG.log(Level.INFO, () -> "getAllEntreprise : " + entreprises);
-		assertThat(entreprises.size()).isGreaterThan(0);
-	}*/
+	//	List<Entreprise> entreprises = entrepriseService.getAllEntreprise();
+		//LOG.log(Level.INFO, () -> "getAllEntreprise : " + entreprises);
+		//assertThat(entreprises.size()).isGreaterThan(0);
+    	
+    	List<Entreprise> entreprises = entrepriseService.getAllEntreprise();
+    	LOG.log(Level.INFO, () -> "getAllEntreprise : " + entreprises);
+    		assertThat(entreprises.get(1)).isEqualTo(entreprise.getName());
+    		//assertThat(names.get(1)).isEqualTo(employe2.getNom());
+    	}
+
+	*/
 	
 	/*@Test
 	public void getNbrEntrepriseJPQLTest() {
