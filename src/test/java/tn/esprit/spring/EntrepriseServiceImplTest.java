@@ -3,12 +3,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +26,11 @@ import tn.esprit.spring.repository.EntrepriseRepository;
 import tn.esprit.spring.services.EntrepriseServiceImpl;
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 public class EntrepriseServiceImplTest {
+	private static final Logger l = LogManager.getLogger(EntrepriseServiceImplTest.class);
+
 
 	@Mock
 	@Autowired
@@ -55,7 +63,11 @@ public class EntrepriseServiceImplTest {
 	@Test
 	public void testAjouterDepartement() {
 		Departement dep = new Departement("Finance");
+		long startTime = System.nanoTime();
 		int AddedepID = entrepriseService.ajouterDepartement(dep);
+		long stopTime = System.nanoTime();
+        double elapsedTimeInSecond = (double) (stopTime - startTime) / 1_000_000_000;
+		l.log(Level.INFO, () -> "Execution time of AjouterDepartement : " +elapsedTimeInSecond+" seconds");
 		Optional<Departement> departement = deptRepository.findById(AddedepID);
 		if(departement.isPresent()) {
 			String name= departement.get().getName();
@@ -65,7 +77,11 @@ public class EntrepriseServiceImplTest {
 	}
 	@Test
 	public void testAffecterDepartementAEntreprise() {
+		long startTime = System.nanoTime();
 		entrepriseService.affecterDepartementAEntreprise(departement.getId(), entreprise.getId());
+		long stopTime = System.nanoTime();
+        double elapsedTimeInSecond = (double) (stopTime - startTime) / 1_000_000_000;
+		l.log(Level.INFO, () -> "Execution time of AffecterDepartementAEntreprise : " +elapsedTimeInSecond+" seconds");
 		Optional<Departement> dep = deptRepository.findById(departement.getId());
 		if(dep.isPresent()) {
 			Entreprise emps= dep.get().getEntreprise();
@@ -75,10 +91,15 @@ public class EntrepriseServiceImplTest {
 	}
 	@Test
 	public void testgetAllDepartementsNamesByEntreprise(){
+		long startTime = System.nanoTime();
 		List<String> names= entrepriseService.getAllDepartementsNamesByEntreprise(entreprise.getId());
+		long stopTime = System.nanoTime();
+        double elapsedTimeInSecond = (double) (stopTime - startTime) / 1_000_000_000;
+		l.log(Level.INFO, () -> "Execution time of getAllDepartementsNamesByEntreprise : " +elapsedTimeInSecond+" seconds");
 		assertEquals(1, names.size());
 	}
-	/*@Test
+	/*
+	@Test
 	public void testDeleteDepartementById() {
 		entrepriseService.deleteDepartementById(departement.getId());
 		assertThat(deptRepository.findAll()).isEmpty();

@@ -114,7 +114,11 @@ public class EmployeServiceImplTest {
 	@Test
 	public void testaffecterEmployeADepartement() {
 		boolean res= false;
+		long startTime = System.nanoTime();
 		employeService.affecterEmployeADepartement(employe3.getId(), departement.getId());
+		long stopTime = System.nanoTime();
+        double elapsedTimeInSecond = (double) (stopTime - startTime) / 1_000_000_000;
+		l.log(Level.INFO, () -> "Execution time of affecterEmployeADepartement : " +elapsedTimeInSecond+" seconds");
 		Optional<Employe> e = employeRepository.findById(employe3.getId());
 		if(e.isPresent()) {
 			List<Departement> deps= e.get().getDepartements();
@@ -130,7 +134,11 @@ public class EmployeServiceImplTest {
 	@Test
 	public void testdesaffecterEmployeDuDepartement() {
 		boolean res= true;
+		long startTime = System.nanoTime();
 		employeService.desaffecterEmployeDuDepartement(employe3.getId(), departement.getId());
+		long stopTime = System.nanoTime();
+        double elapsedTimeInSecond = (double) (stopTime - startTime) / 1_000_000_000;
+		l.log(Level.INFO, () -> "Execution time of desaffecterEmployeDuDepartement : " +elapsedTimeInSecond+" seconds");
 		Optional<Employe> e = employeRepository.findById(employe3.getId());
 		if(e.isPresent()) {
 			List<Departement> deps= e.get().getDepartements();
@@ -146,7 +154,11 @@ public class EmployeServiceImplTest {
 
 	@Test
 	public void testgetSalaireMoyenByDepartementId(){
+		long startTime = System.nanoTime();
 		Double res= employeService.getSalaireMoyenByDepartementId(departement.getId());
+		long stopTime = System.nanoTime();
+        double elapsedTimeInSecond = (double) (stopTime - startTime) / 1_000_000_000;
+		l.log(Level.INFO, () -> "Execution time of getSalaireMoyenByDepartementId : " +elapsedTimeInSecond+" seconds");
 		Double test=(double) 1500;
 		assertEquals(test,res);
 	}
